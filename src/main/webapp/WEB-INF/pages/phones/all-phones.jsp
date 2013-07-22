@@ -17,7 +17,7 @@ Here you can see a list of Smartphones: <br/>
 <span style="color: #00ff0d">${msg}</span>
 </p>
 
-	<table>
+	<table border="1px" cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
 	<th>Producer</th><th>Model</th><th>Price</th><th>Actions</th>
