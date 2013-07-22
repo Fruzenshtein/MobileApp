@@ -40,7 +40,7 @@ public class SmartphoneController {
 		return mav;
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, 
+	@RequestMapping(value="/create", method=RequestMethod.POST, 
 			produces = "application/json", consumes = "application/json")
 	@ResponseBody
 	public Smartphone createSmartphone(@RequestBody Smartphone smartphone) {
@@ -90,11 +90,18 @@ public class SmartphoneController {
 		return mav;
 	}
 	
-	@RequestMapping(method=RequestMethod.GET)
+	@RequestMapping(value="", method=RequestMethod.GET,
+			produces = "application/json", consumes = "application/json")
+	@ResponseBody
+	public List<Smartphone> allPhones() {
+		return smartphoneService.getAll();
+	}
+	
+	@RequestMapping(value="", method=RequestMethod.GET)
 	public ModelAndView allPhonesPage() {
 		ModelAndView mav = new ModelAndView("phones/all-phones");
 		List<Smartphone> smartphones = new ArrayList<Smartphone>();
-		smartphones.addAll(smartphoneService.getAll());
+		smartphones.addAll(allPhones());
 		mav.addObject("smartphones", smartphones);
 		return mav;
 	}
