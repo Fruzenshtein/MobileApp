@@ -11,14 +11,56 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Edit Smartphone</title>
+<link href="../../resources/css/main.css" rel="stylesheet" type="text/css"/>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+   
+    $(document).ready(function() {
+      
+      $('#editSmartphoneForm').submit(function(event) {
+    	  
+    	  var producer = $('#producer').val();
+    	  var model = $('#model').val();
+    	  var price = $('#price').val();
+    	  var json = { "producer" : producer, "model" : model, "price": price};
+    	  
+        $.ajax({
+        	url: $("#editSmartphoneForm").attr( "action"),
+        	data: JSON.stringify(json),
+        	type: "PUT",
+        	
+        	beforeSend: function(xhr) {
+        		xhr.setRequestHeader("Accept", "application/json");
+        		xhr.setRequestHeader("Content-Type", "application/json");
+        	},
+        	success: function(smartphone) {
+        		var respContent = "";
+        		
+		  		respContent += "<span class='success'>Smartphone was edited: [";
+		  		respContent += smartphone.producer + " : ";
+		  		respContent += smartphone.model + " : " ;
+		  		respContent += smartphone.price + "]</span>";
+        		
+        		$("#sPhoneFromResponse").html(respContent);   		
+        	}
+        });
+        
+        event.preventDefault();
+      });
+       
+    });   
+  </script>
+
 </head>
 <body>
+<div id="container">
 <h1>Edit Smartphone</h1>
-<p>
-Here you can edit Smartphone info:<br/>
-</p>
-<form:form method="PUT" commandName="sPhone" 
-action="${pageContext.request.contextPath}/smartphones/edit/${sPhone.id}.html">
+<div id="sPhoneFromResponse">
+<p>Here you can edit Smartphone info:</p>
+<div id="sPhoneFromResponse"></div>
+</div>
+<form:form id="editSmartphoneForm" method="PUT" commandName="sPhone" 
+action="${pageContext.request.contextPath}/smartphones/edit/${sPhone.id}.json">
 <table>
 <tbody>
 <tr>
@@ -48,5 +90,6 @@ action="${pageContext.request.contextPath}/smartphones/edit/${sPhone.id}.html">
 </table>
 </form:form>
 <a href="${pageContext.request.contextPath}/index.html">Home page</a>
+</div>
 </body>
 </html>

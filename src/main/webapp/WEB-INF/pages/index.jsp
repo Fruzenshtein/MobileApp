@@ -6,13 +6,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Home page</title>
+<link href="resources/css/main.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<div id="container">
 <h1>Home page</h1>
 <p>
-<span style="color: #00ff0d">${msg}</span><br/>
 <a href="${pageContext.request.contextPath}/smartphones/create.html">Create new Smartphone</a><br/>
 <a href="${pageContext.request.contextPath}/smartphones.html">All Smartphones</a><br/>
 </p>
+</div>
 </body>
 </html>
