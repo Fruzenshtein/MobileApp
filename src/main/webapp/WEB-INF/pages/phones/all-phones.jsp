@@ -70,7 +70,7 @@
 	<td>${sPhone.model}</td>
 	<td>${sPhone.price}</td>
 	<td>
-	<a href="${pageContext.request.contextPath}/smartphones/edit/${sPhone.id}.json">Edit</a><br/>
+	<a href="${pageContext.request.contextPath}/smartphones/edit/${sPhone.id}.html">Edit</a><br/>
 	<a href="${pageContext.request.contextPath}/smartphones/delete/${sPhone.id}.json">Delete</a><br/>
 	</td>
 	</tr>
