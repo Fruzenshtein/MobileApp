@@ -5,13 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.mobapp.exception.SmartphoneNotFoundException;
 import com.mobapp.model.Smartphone;
 import com.mobapp.repository.SmartphoneRepository;
 
 @Service
-@Transactional(rollbackFor=SmartphoneNotFoundException.class)
+@Transactional(rollbackFor = { SmartphoneNotFoundException.class, MethodArgumentNotValidException.class})
 public class SmartphoneServiceImpl implements SmartphoneService {
 	
 	@Autowired
@@ -24,7 +25,12 @@ public class SmartphoneServiceImpl implements SmartphoneService {
 
 	@Override
 	public Smartphone get(Integer id) {
-		return smartphoneRepository.findOne(id);
+		Smartphone sp = null;
+		if (id instanceof Integer)
+			sp = smartphoneRepository.findOne(id);
+		if (sp != null)
+			return sp;
+		throw new SmartphoneNotFoundException(id);
 	}
 
 	@Override
@@ -33,19 +39,15 @@ public class SmartphoneServiceImpl implements SmartphoneService {
 	}
 
 	@Override
-	public Smartphone update(Smartphone sp) throws SmartphoneNotFoundException {
+	public Smartphone update(Smartphone sp) {
 		Smartphone sPhoneToUpdate = get(sp.getId());
-		if (sPhoneToUpdate == null)
-			throw new SmartphoneNotFoundException(sp.getId().toString());
 		sPhoneToUpdate.update(sp);
 		return sPhoneToUpdate;
 	}
 
 	@Override
-	public Smartphone delete(Integer id) throws SmartphoneNotFoundException {
+	public Smartphone delete(Integer id) {
 		Smartphone sPhone = get(id);
-		if (sPhone == null)
-			throw new SmartphoneNotFoundException(id.toString());
 		smartphoneRepository.delete(id);
 		return sPhone;
 	}

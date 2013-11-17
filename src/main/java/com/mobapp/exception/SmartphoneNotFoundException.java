@@ -4,8 +4,8 @@ public class SmartphoneNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = -2859292084648724403L;
 	
-	public SmartphoneNotFoundException(String smartphoneId) {
-		super("Smartphone not found with id: "+smartphoneId);
+	public SmartphoneNotFoundException(int smartphoneId) {
+		super("Smartphone with id: "+smartphoneId+" not found.");
 	}
 
 }

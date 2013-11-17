@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.web.accept.ContentNegotiationManager;
@@ -83,6 +84,14 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 				view.setPrettyPrint(true);
 				return view;
 		}
+	}
+	
+	@Bean
+	public ResourceBundleMessageSource messageSource() {
+		ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+		source.setBasename(env.getRequiredProperty("message.source.basename"));
+		source.setUseCodeAsDefaultMessage(true);
+		return source;
 	}
 
 }

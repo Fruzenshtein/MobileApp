@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name="smartphones")
@@ -13,10 +17,14 @@ public class Smartphone {
 	@GeneratedValue
 	private Integer id;
 	
+	@Length(min=1, max=20)
 	private String producer;
 	
+	@Length(min=1, max=20)
 	private String model;
 	
+	@Max(value=1500)
+	@Min(value=1)
 	private double price;
 	
 	/**
