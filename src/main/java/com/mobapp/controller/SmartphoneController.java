@@ -46,7 +46,8 @@ public class SmartphoneController {
 	}
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST, 
-			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Smartphone createSmartphone(@RequestBody @Valid Smartphone smartphone, BindingResult result) {
 		return smartphoneService.create(smartphone);
@@ -61,7 +62,8 @@ public class SmartphoneController {
 	}
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.PUT, 
-			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Smartphone editSmartphone(@PathVariable int id, 
 			@Valid @RequestBody Smartphone smartphone) {
@@ -70,14 +72,16 @@ public class SmartphoneController {
 	}
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.DELETE, 
-			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Smartphone deleteSmartphone(@PathVariable int id) {
 		return smartphoneService.delete(id);
 	}
 	
 	@RequestMapping(value="", method=RequestMethod.GET,
-			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Smartphone> allPhones() {
 		return smartphoneService.getAll();
