@@ -5,14 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.mobapp.exception.SmartphoneNotFoundException;
 import com.mobapp.model.Smartphone;
 import com.mobapp.repository.SmartphoneRepository;
 
 @Service
-@Transactional(rollbackFor = { SmartphoneNotFoundException.class, MethodArgumentNotValidException.class})
+@Transactional(rollbackFor = { SmartphoneNotFoundException.class })
 public class SmartphoneServiceImpl implements SmartphoneService {
 	
 	@Autowired

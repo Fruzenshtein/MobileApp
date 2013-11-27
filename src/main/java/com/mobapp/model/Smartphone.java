@@ -8,6 +8,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name="smartphones")
@@ -23,8 +24,7 @@ public class Smartphone {
 	@Length(min=1, max=20)
 	private String model;
 	
-	@Max(value=1500)
-	@Min(value=1)
+	@Range(min=1, max=1500)
 	private double price;
 	
 	/**

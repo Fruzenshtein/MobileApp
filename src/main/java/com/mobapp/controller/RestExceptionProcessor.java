@@ -33,8 +33,8 @@ public class RestExceptionProcessor {
 	@ResponseStatus(value=HttpStatus.NOT_FOUND)
 	@ResponseBody
 	public ErrorInfo smartphoneNotFound(HttpServletRequest req, SmartphoneNotFoundException ex) {
-		Locale locale = LocaleContextHolder.getLocale();
-		String errorMessage = messageSource.getMessage("error.no.smartphone.id", null, locale);
+		
+		String errorMessage = localizeErrorMessage("error.no.smartphone.id");
 		
 		errorMessage += ex.getSmartphoneId();
 		String errorURL = req.getRequestURL().toString();
@@ -46,19 +46,56 @@ public class RestExceptionProcessor {
 	@ResponseStatus(value=HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	public ErrorFormInfo handleMethodArgumentNotValid(HttpServletRequest req, MethodArgumentNotValidException ex) {
-		List<FieldError> fieldErrors = new ArrayList<FieldError>();
 		
-		ErrorFormInfo errorInfo = new ErrorFormInfo(req.getRequestURL().toString(), "Bad arguments");
+		String errorMessage = localizeErrorMessage("error.bad.arguments");
+		String errorURL = req.getRequestURL().toString();
 		
-		BindingResult result = ex.getBindingResult();
+		ErrorFormInfo errorInfo = new ErrorFormInfo(errorURL, errorMessage);
 		
-		fieldErrors.addAll(result.getFieldErrors());
+		BindingResult result = ex.getBindingResult();		
+		List<FieldError> fieldErrors = result.getFieldErrors();
 		
-		for (FieldError fieldError : fieldErrors) {
-			errorInfo.getFieldErrors().add(new FieldErrorDTO(fieldError.getField(), fieldError.getCode()));
-		}
+		errorInfo.getFieldErrors().addAll(populateFieldErrors(fieldErrors));
 		
 		return errorInfo;
+	}
+	
+	/**
+	 * Method populates {@link List} of {@link FieldErrorDTO} objects. Each list item contains
+	 * localized error message and name of a form field which caused the exception.
+	 * Use the {@link #localizeErrorMessage(String) localizeErrorMessage} method.
+	 * 
+	 * @param fieldErrorList - {@link List} of {@link FieldError} items
+	 * @return {@link List} of {@link FieldErrorDTO} items
+	 */
+	public List<FieldErrorDTO> populateFieldErrors(List<FieldError> fieldErrorList) {
+		List<FieldErrorDTO> fieldErrors = new ArrayList<FieldErrorDTO>();
+		StringBuilder errorMessage = new StringBuilder("");
+		
+		for (FieldError fieldError : fieldErrorList) {
+			
+			errorMessage.append(fieldError.getCode()).append(".");
+			errorMessage.append(fieldError.getObjectName()).append(".");
+			errorMessage.append(fieldError.getField());
+			
+			String localizedErrorMsg = localizeErrorMessage(errorMessage.toString());
+			
+			fieldErrors.add(new FieldErrorDTO(fieldError.getField(), localizedErrorMsg));
+			errorMessage.delete(0, errorMessage.capacity());
+		}
+		return fieldErrors;
+	}
+	
+	/**
+	 * Method retrieves appropriate localized error message from the {@link MessageSource}.
+	 * 
+	 * @param errorCode - key of the error message
+	 * @return {@link String} localized error message 
+	 */
+	public String localizeErrorMessage(String errorCode) {
+		Locale locale = LocaleContextHolder.getLocale();
+		String errorMessage = messageSource.getMessage(errorCode, null, locale);
+		return errorMessage;
 	}
 
 }
