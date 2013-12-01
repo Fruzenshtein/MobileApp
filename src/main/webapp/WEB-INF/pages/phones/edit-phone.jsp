@@ -32,6 +32,7 @@
         	beforeSend: function(xhr) {
         		xhr.setRequestHeader("Accept", "application/json");
         		xhr.setRequestHeader("Content-Type", "application/json");
+        		$(".error").remove();
         	},
         	success: function(smartphone) {
         		var respContent = "";
@@ -55,7 +56,7 @@
         		
         		$.each(respBody.fieldErrors, function(index, errEntity) {
         			var tdEl = $("."+errEntity.fieldName+"-info");
-        			tdEl.text(errEntity.fieldError);
+        			tdEl.html("<span class=\"error\">"+errEntity.fieldError+"</span>");
         		});
         	}
         });
