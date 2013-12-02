@@ -2,12 +2,20 @@ package com.mobapp.exception.helper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.validation.FieldError;
 
 public class ErrorFormInfo {
-	
+		
 	private String url;
 	private String message;
 	private List<FieldErrorDTO> fieldErrors = new ArrayList<FieldErrorDTO>();
+	
+	public ErrorFormInfo() {}
 	
 	public ErrorFormInfo(String url, String message) {
 		this.url = url;

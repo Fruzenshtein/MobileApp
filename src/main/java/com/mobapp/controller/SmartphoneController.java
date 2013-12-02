@@ -14,7 +14,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,7 +48,7 @@ public class SmartphoneController {
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Smartphone createSmartphone(@RequestBody @Valid Smartphone smartphone, BindingResult result) {
+	public Smartphone createSmartphone(@RequestBody @Valid Smartphone smartphone) {
 		return smartphoneService.create(smartphone);
 	}
 	

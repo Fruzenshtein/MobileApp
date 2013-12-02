@@ -32,6 +32,7 @@
         	beforeSend: function(xhr) {
         		xhr.setRequestHeader("Accept", "application/json");
         		xhr.setRequestHeader("Content-Type", "application/json");
+        		$(".error").remove();
         	},
         	success: function(smartphone) {
         		var respContent = "";
@@ -42,6 +43,21 @@
 		  		respContent += smartphone.price + "]</span>";
         		
         		$("#sPhoneFromResponse").html(respContent);   		
+        	},
+        	error: function(jqXHR, textStatus, errorThrown) {
+        		var respBody = $.parseJSON(jqXHR.responseText);
+        		var respContent = "";
+        		
+        		respContent += "<span class='error-main'>";
+        		respContent += respBody.message;
+        		respContent += "</span>";
+        		
+        		$("#sPhoneFromResponse").html(respContent);
+        		
+        		$.each(respBody.fieldErrors, function(index, errEntity) {
+        			var tdEl = $("."+errEntity.fieldName+"-info");
+        			tdEl.html("<span class=\"error\">"+errEntity.fieldError+"</span>");
+        		});
         	}
         });
          
@@ -71,17 +87,21 @@
 	<form:option value="SAMSUNG">Samsung</form:option>
 </form:select>
 </td>
+<td class="producer-info"></td>
 </tr>
 <tr>
 <td>Model:</td>
 <td><form:input path="model" /></td>
+<td class="model-info"></td>
 </tr>
 <tr>
 <td>Price:</td>
 <td><form:input path="price" /></td>
+<td class="price-info"></td>
 </tr>
 <tr>
 <td><input type="submit" value="Create" /></td>
+<td></td>
 <td></td>
 </tr>
 </tbody>
